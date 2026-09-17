@@ -25,4 +25,12 @@ public class FactionsController : ControllerBase
     {
         return Ok(_factions);
     }
+
+    [HttpGet("{id}")]
+    public ActionResult<Faction> GetById(int id)
+    {
+        var faction = _factions.FirstOrDefault(f => f.Id == id);
+        if (faction is null) return NotFound();
+        return Ok(faction);
+    }
 }
