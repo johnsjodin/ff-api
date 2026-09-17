@@ -1,4 +1,5 @@
 # User-specific files
+factions.json
 *.suo
 *.user
 *.userosscache

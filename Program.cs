@@ -15,6 +15,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSingleton<FactionFactory.Api.Services.FactionStore>();
+
 var app = builder.Build();
 
 app.UseCors();
