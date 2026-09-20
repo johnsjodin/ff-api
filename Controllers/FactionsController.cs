@@ -51,4 +51,28 @@ public class FactionsController : ControllerBase
         if (!deleted) return NotFound();
         return NoContent();
     }
+
+    [HttpPost("{id}/emblem")]
+    public async Task<IActionResult> UploadEmblem(int id, IFormFile file)
+    {
+        var faction = _store.GetById(id);
+        if (faction is null) return NotFound();
+
+        var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+        var allowed = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+        if (!allowed.Contains(extension)) return BadRequest("Only image files are allowed.");
+
+        var fileName = $"faction-{id}{extension}";
+        var savePath = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "uploads", fileName);
+
+        using (var stream = System.IO.File.Create(savePath))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        faction.EmblemFileName = fileName;
+        _store.Update(id, faction);
+
+        return Ok(faction);
+    }
 }

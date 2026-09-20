@@ -8,4 +8,5 @@ public record Faction
     public string? Description { get; set; }
     public string? Type { get; set; }
     public string? Organisation { get; set; }
+    public string? EmblemFileName { get; set; }
 }
